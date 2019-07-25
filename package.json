@@ -1,8 +1,6 @@
 {
-  "name": "EA-NodeJS-Template",
+  "name": "cl-currencylayer",
   "version": "1.0.0",
-  "author": "",
-  "description": "",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/_mocha"

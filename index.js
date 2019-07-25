@@ -1,42 +1,43 @@
 const request = require('request');
 
 const createRequest = (input, callback) => {
-  let url = process.env.URL || "";
-  // Including an endpoint parameter is optional but common since
-  // different endpoints of the same API typically respond with
-  // data structured different from one another
-  const endpoint = process.env.ENDPOINT || input.data.endpoint || "";
-  // Include a trailing slash "/" in your url if endpoint is in use
-  // and part of the URL
+  let url = "http://apilayer.net/api/";
+  const endpoint = input.data.endpoint || "";
   url = url + endpoint;
 
-  // Create additional input params here, for example:
-  const coin = input.data.coin || "";
-  const market = input.data.market || "";
+  const date = input.data.date || "";
+  const from = input.data.from || "";
+  const to = input.data.to || "";
+  const amount = input.data.amount || "";
+  const start_date = input.data.start_date || "";
+  const end_date = input.data.end_date || "";
+  const currencies = input.data.currencies || "";
+  const source = input.data.source || "";
 
-  // Build your query object with the given input params, for example:
-  const queryObj = {
-    fsym: coin,
-    tsyms: market
+  let queryObj = {
+    date: date,
+	from: from,
+	to: to,
+	amount: amount,
+	start_date: start_date,
+	end_date: end_date,
+	currencies: currencies,
+	source: source,
+	access_key: process.env.API_KEY
+  }
+  for (let key in queryObj) {
+    if (queryObj[key] === "") {
+      delete queryObj[key];
+    }
   }
 
   const options = {
     url: url,
-    // Change the API_KEY key name to the name specified by the API
-    // Note: If the API only requires a request header to be specified
-    // for authentication, you can place this in the job's specification
-    // instead of writing an external adapter
-    /*
-    headers: {
-      "API_KEY": process.env.API_KEY
-    },
-    */
     qs: queryObj,
     json: true
   }
   request(options, (error, response, body) => {
-    // Add any API-specific failure case here to pass that error back to Chainlink
-    if (error || response.statusCode >= 400) {
+    if (error || response.statusCode >= 400 || body.success == false) {
       callback(response.statusCode, {
         jobRunID: input.id,
         status: "errored",
@@ -53,22 +54,16 @@ const createRequest = (input, callback) => {
   });
 };
 
-// This is a wrapper to allow the function to work with
-// GCP Functions
 exports.gcpservice = (req, res) => {
   createRequest(req.body, (statusCode, data) => {
     res.status(statusCode).send(data);
   });
 };
 
-// This is a wrapper to allow the function to work with
-// AWS Lambda
 exports.handler = (event, context, callback) => {
   createRequest(event, (statusCode, data) => {
     callback(null, data);
   });
 }
 
-// This allows the function to be exported for testing
-// or for running in express
 module.exports.createRequest = createRequest;
