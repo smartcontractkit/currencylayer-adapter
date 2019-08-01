@@ -1,7 +1,7 @@
 const request = require('request');
 
 const createRequest = (input, callback) => {
-  let url = "http://apilayer.net/api/";
+  let url = "https://apilayer.net/api/";
   const endpoint = input.data.endpoint || "";
   url = url + endpoint;
 
