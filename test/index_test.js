@@ -8,7 +8,7 @@ describe('createRequest', () => {
     const req = {
       id: jobID,
       data: {
-		endpoint: "historical",
+		    endpoint: "historical",
         date: "2019-07-23"
       }
     };
@@ -28,7 +28,7 @@ describe('createRequest', () => {
     const req = {
       id: jobID,
       data: {
-		endpoint: "live"
+		    endpoint: "live"
       }
     };
 
@@ -36,7 +36,7 @@ describe('createRequest', () => {
       createRequest(req, (statusCode, data) => {
         assert.equal(statusCode, 200);
         assert.equal(data.jobRunID, jobID);
-		assert.isNotEmpty(data.data);
+		    assert.isNotEmpty(data.data);
         done();
       });
     });
@@ -47,51 +47,10 @@ describe('createRequest', () => {
     const req = {
       id: jobID,
       data: {
-		endpoint: "convert",
-		from: "EUR",
-		to: "USD",
-		amount: 100
-      }
-    };
-
-    it('returns data to the node', (done) => {
-      createRequest(req, (statusCode, data) => {
-        assert.equal(statusCode, 200);
-        assert.equal(data.jobRunID, jobID);
-        assert.isNotEmpty(data.data);
-        done();
-      });
-    });
-  });
-
-  context('Endpoint: timeframe', () => {
-    const jobID = "278c97ffadb54a5bbb93cfec5f7b5503";
-    const req = {
-      id: jobID,
-      data: {
-		endpoint: "timeframe",
-		start_date: "2019-07-23",
-		end_date: "2019-07-24"
-      }
-    };
-
-    it('returns data to the node', (done) => {
-      createRequest(req, (statusCode, data) => {
-        assert.equal(statusCode, 200);
-        assert.equal(data.jobRunID, jobID);
-        assert.isNotEmpty(data.data);
-        done();
-      });
-    });
-  });
-
-  context('Endpoint: change', () => {
-    const jobID = "278c97ffadb54a5bbb93cfec5f7b5503";
-    const req = {
-      id: jobID,
-      data: {
-		endpoint: "change",
-        currencies: "USD,EUR"
+        endpoint: "convert",
+        from: "EUR",
+        to: "USD",
+        amount: 100
       }
     };
 
@@ -115,9 +74,30 @@ describe('createRequest', () => {
     it('returns an error to the node', (done) => {
       createRequest(req, (statusCode, data) => {
         assert.equal(statusCode, 200);
-		assert.equal(data.jobRunID, jobID);
-		assert.equal(data.status, "errored");
+        assert.equal(data.jobRunID, jobID);
+        assert.equal(data.status, "errored");
         assert.isNotEmpty(data.error);
+        done();
+      });
+    });
+  });
+
+  context('Deviator', () => {
+    const jobID = "278c97ffadb54a5bbb93cfec5f7b5503";
+    const req = {
+      id: jobID,
+      data: {
+        from: "XAU",
+        to: "USD"
+      }
+    };
+
+    it('returns data to the node', (done) => {
+      createRequest(req, (statusCode, data) => {
+        assert.equal(statusCode, 200);
+        assert.equal(data.jobRunID, jobID);
+        assert.isNotEmpty(data.data);
+        assert.isNumber(data.result);
         done();
       });
     });
