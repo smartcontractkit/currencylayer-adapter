@@ -19,13 +19,13 @@ See the [official documentation](https://currencylayer.com/documentation) for th
 ## Install
 
 ```bash
-npm install
+yarn install
 ```
 
 ## Test
 
 ```bash
-npm test
+yarn test
 ```
 
 ## Create the zip
@@ -34,12 +34,26 @@ npm test
 zip -r cl-currencylayer.zip .
 ```
 
+## Docker
+
+If you wish to use Docker to run the adapter, you can build the image by running the following command:
+
+```bash
+docker build . -t currencylayer-adapter
+```
+
+Then run it with:
+
+```bash
+docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it currencylayer-adapter:latest
+```
+
 ## Install to AWS Lambda
 
 - In Lambda Functions, create function
 - On the Create function page:
   - Give the function a name
-  - Use Node.js 8.10 for the runtime
+  - Use Node.js 12.x for the runtime
   - Choose an existing role or create a new one
   - Click Create Function
 - Under Function code, select "Upload a .zip file" from the Code entry type drop-down
