@@ -2,24 +2,40 @@
 
 ## Input Params:
 
-- `endpoint`: Required to specify which endpoint of the API to call
-- `date`: Specify the date. Required for the historical endpoint ("YYYY-MM-DD").
-- `from`: Specify the currency to convert from. Required for the convert endpoint.
-- `to`: Specify the currency to convert to. Required for the convert endpoint.
-- `amount`: Specify the amount to convert. Required for the convert endpoint.
-- `start_date`: Specify a start date for the range of the timeframe endpoint ("YYYY-MM-DD").
-- `end_date`: Specify an end date for the range of the timeframe endpoint ("YYYY-MM-DD").
-- `source`: The source currency (defaults to USD if unspecified).
-- `currencies`: A comma-delimited list of currencies to query.
+- `base` or `from`: Specify the currency to convert from (required)
+- `quote` or `to`: Specify the currency to convert to (required)
+- `endpoint`: The endpoint to call (optional)
+- `amount`: Specify the amount to convert (optional)
 
 ## Output
 
-See the [official documentation](https://currencylayer.com/documentation) for the API's response output since it varies based on the endpoint.
+```json
+{
+ "jobRunID": "1",
+ "data": {
+  "success": true,
+  "query": {
+   "from": "GBP",
+   "to": "JPY",
+   "amount": 1
+  },
+  "info": {
+   "timestamp": 1519328414,
+   "rate": 148.972231
+  },
+  "historical": "",
+  "date": "2018-02-22",
+  "result": 148.972231
+ },
+ "result": 148.972231,
+ "statusCode": 200
+}
+```
 
 ## Install
 
 ```bash
-yarn install
+yarn
 ```
 
 ## Test
