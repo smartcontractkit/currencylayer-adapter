@@ -1,4 +1,4 @@
-const {Requester, Validator} = require('external-adapter')
+const { Requester, Validator } = require('external-adapter')
 
 const customParams = {
   base: ['base', 'from'],
@@ -30,13 +30,13 @@ const createRequest = (input, callback) => {
   }
 
   Requester.requestRetry(options)
-      .then(response => {
-        response.body.result = Requester.validateResult(response.body, ['result'])
-        callback(response.statusCode, Requester.success(jobRunID, response))
-      })
-      .catch(error => {
-        callback(500, Requester.errored(jobRunID, error))
-      })
+    .then(response => {
+      response.body.result = Requester.validateResult(response.body, ['result'])
+      callback(response.statusCode, Requester.success(jobRunID, response))
+    })
+    .catch(error => {
+      callback(500, Requester.errored(jobRunID, error))
+    })
 }
 
 exports.gcpservice = (req, res) => {
