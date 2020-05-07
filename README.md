@@ -1,5 +1,7 @@
 # Chainlink CurrencyLayer External Adapter
 
+**This adapter has moved to our [external adapters monorepo](https://github.com/smartcontractkit/external-adapters-js)!**
+
 ## Input Params:
 
 - `base` or `from`: Specify the currency to convert from (required)
